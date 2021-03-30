@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FotoService } from '../services/foto.service';
+import { Router }  from '@angular/router';
 
 @Component({
   selector: 'app-tab3',
@@ -8,15 +9,12 @@ import { FotoService } from '../services/foto.service';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
-
-  urlImageStorage : string[] = [];
-  imageNameStorage : String[] = [];
-
   imageStorage = [{}]
 
   constructor(
     private afStorage : AngularFireStorage,
-    public fotoService : FotoService
+    public fotoService : FotoService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -29,13 +27,12 @@ export class Tab3Page {
   }
 
   tampilkanData() {
-    this.urlImageStorage = []
+    this.imageStorage = []
     var refImage = this.afStorage.storage.ref('imgStorage');
     refImage.listAll()
     .then((res) => {
       res.items.forEach((itemRef) => {
         itemRef.getDownloadURL().then((url) => {
-          this.urlImageStorage.unshift(url)
           this.imageStorage.unshift({
             link: url,
             namaFoto: itemRef.name
@@ -45,5 +42,8 @@ export class Tab3Page {
     }).catch((error) => {
       console.log(error);
     });
+  }
+  selectFoto(url: string) {
+    this.router.navigate(['/tab4', url])
   }
 }
