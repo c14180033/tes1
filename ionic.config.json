@@ -1,5 +1,7 @@
 {
   "name": "tes1TABS",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
